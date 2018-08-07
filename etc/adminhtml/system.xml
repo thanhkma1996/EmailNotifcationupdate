@@ -1,0 +1,112 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Magenest. All rights reserved.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="emailnotifications" translate="label" sortOrder="800">
+            <label>Magenest</label>
+        </tab>
+
+        <section id="emailnotifications_config" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="1">
+            <class>separator-top</class>
+            <label>Email Notifications Configuration</label>
+            <tab>emailnotifications</tab>
+            <resource>Magenest_EmailNotifications::config_emailnotifications</resource>
+
+            <group id="config_group_email_sender" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="1">
+                <label>Email sender</label>
+                <fieldset_css>admin-email-custom-css</fieldset_css>
+                <field id="config_email_sender" translate="label comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="1">
+                    <label>Email Sender</label>
+                    <attribute type="class">11</attribute>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Identity</source_model>
+                </field>
+            </group>
+
+            <group id="config_group_new_order" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="0" showInStore="1">
+                <label>New Order</label>
+                <fieldset_css>admin-email-custom-css</fieldset_css>
+                <field id="config_new_order_receiver" translate="label comment" type="text" sortOrder="60" showInDefault="1" showInWebsite="0" showInStore="1">
+                    <label>Send To</label>
+                    <frontend_model>Magenest\EmailNotifications\Block\Adminhtml\Form\Field\Mail</frontend_model>
+                    <backend_model>Magenest\EmailNotifications\Config\Backend\Mail</backend_model>
+                </field>
+            </group>
+
+            <group id="config_group_new_wishlist" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="0" showInStore="1">
+                <label>New Wishlist</label>
+                <fieldset_css>admin-email-custom-css</fieldset_css>
+                <field id="config_new_wishlist_receiver" translate="label comment" type="text" sortOrder="60" showInDefault="1" showInWebsite="0" showInStore="1">
+                    <label>Send To</label>
+                    <frontend_model>Magenest\EmailNotifications\Block\Adminhtml\Form\Field\Mail</frontend_model>
+                    <backend_model>Magenest\EmailNotifications\Config\Backend\Mail</backend_model>
+                </field>
+            </group>
+
+            <group id="config_group_new_coupon" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="0" showInStore="1">
+                <label>New Coupon Code used</label>
+                <fieldset_css>admin-email-custom-css</fieldset_css>
+                <field id="config_new_coupon_receiver" translate="label comment" type="text" sortOrder="60" showInDefault="1" showInWebsite="0" showInStore="1">
+                    <label>Send To</label>
+                    <frontend_model>Magenest\EmailNotifications\Block\Adminhtml\Form\Field\Mail</frontend_model>
+                    <backend_model>Magenest\EmailNotifications\Config\Backend\Mail</backend_model>
+                </field>
+            </group>
+
+            <group id="config_group_new_registration" translate="label" type="text" sortOrder="70" showInDefault="1" showInWebsite="0" showInStore="1">
+                <label>New Customer Registration</label>
+
+                <field id="config_new_registration_receiver" translate="label comment" type="text" sortOrder="60" showInDefault="1" showInWebsite="0" showInStore="1">
+                    <label>Send To</label>
+                    <frontend_model>Magenest\EmailNotifications\Block\Adminhtml\Form\Field\Mail</frontend_model>
+                    <backend_model>Magenest\EmailNotifications\Config\Backend\Mail</backend_model>
+                </field>
+            </group>
+
+            <group id="config_group_new_review" translate="label" type="text" sortOrder="80" showInDefault="1" showInWebsite="0" showInStore="1">
+                <label>New Product Review</label>
+                <fieldset_css>admin-email-custom-css</fieldset_css>
+                <field id="config_new_review_receiver" translate="label comment" type="text" sortOrder="60" showInDefault="1" showInWebsite="0" showInStore="1">
+                    <label>Send To</label>
+                    <frontend_model>Magenest\EmailNotifications\Block\Adminhtml\Form\Field\Mail</frontend_model>
+                    <backend_model>Magenest\EmailNotifications\Config\Backend\Mail</backend_model>
+
+                </field>
+            </group>
+
+            <group id="config_group_new_subscription" translate="label" type="text" sortOrder="150" showInDefault="1" showInWebsite="0" showInStore="1">
+                <label>Customer subscribed to Newsletter</label>
+                <fieldset_css>admin-email-custom-css</fieldset_css>
+                <field id="config_new_subscription_receiver" translate="label comment" type="text" sortOrder="60" showInDefault="1" showInWebsite="0" showInStore="1">
+                    <label>Send To</label>
+                    <frontend_model>Magenest\EmailNotifications\Block\Adminhtml\Form\Field\Mail</frontend_model>
+                    <backend_model>Magenest\EmailNotifications\Config\Backend\Mail</backend_model>
+                </field>
+            </group>
+
+            <group id="config_group_new_unsubscription" translate="label" type="text" sortOrder="150" showInDefault="1" showInWebsite="0" showInStore="1">
+                <label>Customer unsubscribed to Newsletter</label>
+                <fieldset_css>admin-email-custom-css</fieldset_css>
+                <field id="config_new_unsubscription_receiver" translate="label comment" type="text" sortOrder="60" showInDefault="1" showInWebsite="0" showInStore="1">
+                    <label>Send To</label>
+                    <frontend_model>Magenest\EmailNotifications\Block\Adminhtml\Form\Field\Mail</frontend_model>
+                    <backend_model>Magenest\EmailNotifications\Config\Backend\Mail</backend_model>
+                </field>
+            </group>
+
+            <group id="config_group_new_orderstatus" translate="label" type="text" sortOrder="270" showInDefault="1" showInWebsite="0" showInStore="1">
+                <label>Order Status Change</label>
+                <fieldset_css>admin-email-custom-css</fieldset_css>
+                <field id="config_new_orderstatus_receiver" translate="label comment" type="text" sortOrder="60" showInDefault="1" showInWebsite="0" showInStore="1">
+                    <label>Send To</label>
+                    <frontend_model>Magenest\EmailNotifications\Block\Adminhtml\Form\Field\Status</frontend_model>
+                    <backend_model>Magenest\EmailNotifications\Config\Backend\Mail</backend_model>
+                </field>
+
+            </group>
+        </section>
+    </system>
+</config>
