@@ -7,8 +7,7 @@ use Magento\Framework\Event\ObserverInterface;
 
  abstract class Email implements ObserverInterface
 {
-//        CONST PATH = 'emailnotifications_config/';
-            CONST PATH ="";
+    CONST PATH ="";
      protected $_logger;
 
      protected $_coreRegistry;
@@ -27,7 +26,11 @@ use Magento\Framework\Event\ObserverInterface;
          \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder,
          \Magento\Store\Model\StoreManagerInterface $storeManager,
          Registry $registry,
-         \Magento\Review\Model\ReviewFactory $reviewFactory
+         \Magento\Review\Model\ReviewFactory $reviewFactory,
+         \Magento\Customer\Model\CustomerFactory $customerFactory,
+         \Magento\Sales\Model\OrderFactory $orderFactory
+
+
      ) {
          $this->_logger = $loggerInterface;
          $this->_scopeConfig = $scopeConfig;
@@ -35,6 +38,19 @@ use Magento\Framework\Event\ObserverInterface;
          $this->_transportBuilder = $transportBuilder;
          $this->_storeManager = $storeManager;
          $this->_reviewFactory = $reviewFactory;
+         $this->_customerFactory = $customerFactory;
+         $this->_orderFactory = $orderFactory;
+
+
+     }
+
+
+     public function transport(){
+         $var =   [
+             'area' => \Magento\Framework\App\Area::AREA_FRONTEND,
+             'store' => $this->_storeManager->getStore()->getId(),
+         ];
+         return $var;
      }
 
     public function Emailsender(){
@@ -83,13 +99,78 @@ use Magento\Framework\Event\ObserverInterface;
          return $path;
      }
 
+     public function registration($reg){
+         switch ($reg){
+             case "rv_receive":
+                 $path = $this::PATH.'emailnotifications_config/config_group_new_registration/config_new_registration_receiver';
+                 break;
+             case "rv_template":
+                 $path = $this::PATH.'emailnotifications_config/config_group_new_registration/config_new_registration_template';
+                 break;
+             default:
+                 $path = "";
+                break;
+
+         }
+         return $path;
+     }
+
+     public function newStatus($status){
+         switch ($status){
+             case "rv_order_from":
+                 $path = $this::PATH.'emailnotifications_config/config_group_new_orderstatus/config_new_orderstatus_from';
+                 break;
+             case "rv_order_to":
+                 $path = $this::PATH.'emailnotifications_config/config_group_new_orderstatus/config_new_orderstatus_to';
+                 break;
+             case "rv_order_template":
+                 $path = $this::PATH.'emailnotifications_config/config_group_new_orderstatus/config_new_orderstatus_template';
+                 break;
+             case "rv_order_receive":
+                 $path = $this::PATH.'emailnotifications_config/config_group_new_orderstatus/config_new_orderstatus_receiver';
+                 break;
+             default:
+                 $path="";
+
+         }
+         return $path;
+     }
+
+     public function subscription($sub){
+         switch ($sub){
+             case "rv_sub_receive":
+                 $path = $this::PATH.'emailnotifications_config/config_group_new_subscription/config_new_subscription_receiver';
+                 break;
+             case "rv_sub_template":
+                 $path = $this::PATH.'emailnotifications_config/config_group_new_subscription/config_new_subscription_template';
+                 break;
+
+             default:
+                 $path = "";
+         }
+         return $path;
+     }
+
+     public function  unsubscription($unsub){
+         switch ($unsub){
+             case "rv_unsub_receive":
+                 $path = $this::PATH.'emailnotifications_config/config_group_new_unsubscription/config_new_unsubscription_receiver';
+                 break;
+             case "rv_unsub_template":
+                 $path = $this::PATH.'emailnotifications_config/config_group_new_unsubscription/config_new_unsubcription_template';
+                 break;
+             default:
+                 $path = "";
+         }
+         return $path;
+     }
      public  function wishlist($wishlist){
          switch ($wishlist){
              case 'rv_template':
                  $path = $this::PATH.'emailnotifications_config/config_group_new_wishlist/config_new_wishlist_template';
                  break;
              case 'rv_receive':
-                 $path = $this::PATH.'emailnotifications_config/config_group_new_wishlist/config_new_wishlist_receive';
+                 $path = $this::PATH.'emailnotifications_config/config_group_new_wishlist/config_new_wishlist_receiver';
                  break;
              default:
                  $path = "";

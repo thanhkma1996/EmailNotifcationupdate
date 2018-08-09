@@ -1,5 +1,10 @@
 {{template config_path="design/email/header_template"}}
 <!--@subject New Order Status @-->
+<style type="text/css">
+    {{var template_styles|raw}}
+
+    {{css file="css/email.css"}}
+</style>
 <h1>New order status</h1>
 <p>Order ID: {{var orderId}}</p>
 <p>Previous Status: {{var statebefore}}</p>

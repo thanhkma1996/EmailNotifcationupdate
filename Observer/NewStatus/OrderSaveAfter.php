@@ -7,87 +7,58 @@
  */
 namespace Magenest\EmailNotifications\Observer\NewStatus;
 
+use Magenest\EmailNotifications\Observer\Email\Email;
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Event\Observer;
-use Psr\Log\LoggerInterface;
-use Magento\Framework\Registry;
 
-class OrderSaveAfter implements ObserverInterface
+class OrderSaveAfter extends Email implements ObserverInterface
 {
-    protected $_logger;
-    
-    protected $_coreRegistry;
-
-    protected $_scopeConfig;
-
-    protected $_transportBuilder;
-
-    protected $_storeManager;
-
-    public function __construct(
-        LoggerInterface $loggerInterface,
-        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
-        Registry $registry
-    ) {
-        $this->_logger = $loggerInterface;
-        $this->_scopeConfig = $scopeConfig;
-        $this->_coreRegistry = $registry;
-        $this->_transportBuilder = $transportBuilder;
-        $this->_storeManager = $storeManager;
-    }
 
     public function execute(Observer $observer)
     {
         /** @var \Magento\Sales\Model\Order $order */
         $order = $observer->getEvent()->getOrder();
-        $statusBefore =  $order->getOrigData('status');
+        $statusBefore = $order->getOrigData('status');
         $statusAfter = $order->getStatus();
 
 
-            $from1 = $this->_scopeConfig->getValue(
-                'emailnotifications_config/config_group_new_orderstatus/config_new_orderstatus_from1',
+        $from = $this->_scopeConfig->getValue(
+            $this->newStatus('rv_order_from'),
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
+        $to = $this->_scopeConfig->getValue(
+            $this->newStatus('rv_order_to'),
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
+        if ((strpos($from, $statusBefore) !== false) && (strpos($to, $statusAfter) !== false)) {
+            $receiverList = $this->_scopeConfig->getValue(
+                $this->newStatus('rv_order_receive'),
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE
             );
-            $to1 = $this->_scopeConfig->getValue(
-                'emailnotifications_config/config_group_new_orderstatus/config_new_orderstatus_to1',
-                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-            );
-            if ((strpos($from1, $statusBefore) !== false) && (strpos($to1, $statusAfter) !== false)) {
-                $receiverList = $this->_scopeConfig->getValue(
-                    'emailnotifications_config/config_group_new_orderstatus/config_new_orderstatus_receiver1',
+            $receiverEmail = json_decode($receiverList, true);
+            foreach ($receiverEmail as $Emailreceiver) {
+                $Email = $Emailreceiver['email'];
+                $template_id = $this->_scopeConfig->getValue(
+                    $this->newStatus('rv_order_template'),
                     \Magento\Store\Model\ScopeInterface::SCOPE_STORE
                 );
-//                $receiverEmails = explode(';', $receiverList);
-                foreach ($receiverList as $receiverEmail) {
-                    $template_id1 = $this->_scopeConfig->getValue(
-                        'emailnotifications_config/config_group_new_orderstatus/config_new_orderstatus_template1',
-                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-                    );
-                    $transport1 = $this->_transportBuilder->setTemplateIdentifier($template_id1)->setTemplateOptions(
-                        [
-                            'area' => \Magento\Framework\App\Area::AREA_FRONTEND,
-                            'store' => $this->_storeManager->getStore()->getId(),
-                        ]
-                    )->setTemplateVars(
-                        [
-                            'orderId' => $order->getIncrementId(),
-                            'updated_at' => $order->getUpdatedAt(),
-                            'statebefore' => $from1,
-                            'stateafter' => $to1
-                        ]
-                    )->setFrom(
-                        $this->_scopeConfig->getValue(
-                            'emailnotifications_config/config_group_email_sender/config_email_sender',
-                            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-                        )
-                    )->addTo(
-                        $receiverEmail
-                    )->getTransport();
-                    $transport1->sendMessage();
-                }
+                $transport = $this->_transportBuilder->setTemplateIdentifier($template_id)->setTemplateOptions(
+                    $this->transport()
+                )->setTemplateVars(
+                    [
+                        'orderId' => $order->getIncrementId(),
+                        'updated_at' => $order->getUpdatedAt(),
+                        'statebefore' => $from,
+                        'stateafter' => $to
+                    ]
+                )->setFrom(
+                    $this->Emailsender()
+                )->addTo(
+                    $Email
+                )->getTransport();
+                $transport->sendMessage();
             }
         }
+        }
 
-}
+    }

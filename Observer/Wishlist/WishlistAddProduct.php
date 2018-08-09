@@ -12,9 +12,7 @@ use Magento\Framework\Event\ObserverInterface;
 
 use Magento\Framework\Event\Observer;
 
-use Psr\Log\LoggerInterface;
 
-use Magento\Framework\Registry;
 
 class WishlistAddProduct extends Email implements ObserverInterface
 {
@@ -29,36 +27,38 @@ class WishlistAddProduct extends Email implements ObserverInterface
         $customerName = $customer->getName();
         $customerEmail = $customer->getEmail();
 
-            $receiverList = $this->_scopeConfig->getValue(
-                $this->wishlist('rv_receive'),
-                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-            );
+        $receiverList = $this->_scopeConfig->getValue(
+            $this->wishlist('rv_receive'),
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
+        $receiverEmail = json_decode($receiverList, true);
+        foreach ($receiverEmail as $Emailreceiver) {
+            $Email = $Emailreceiver['email'];
+            try {
+                $template_id = $this->_scopeConfig->getValue(
+                    $this->wishlist('rv_template'),
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+                );
 
-                try {
-                    $template_id = $this->_scopeConfig->getValue(
-                        $this->wishlist('rv_template'),
-                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-                    );
+                $transport = $this->_transportBuilder->setTemplateIdentifier($template_id)->setTemplateOptions(
+                    $this->transport()
+                )->setTemplateVars(
+                    [
+                        'customerName' => $customerName,
+                        'customerEmail' => $customerEmail,
+                        'productName' => $productName,
+                        'store' => $this->_storeManager->getStore()
+                    ]
+                )->setFrom(
+                    $this->Emailsender()
+                )->addTo(
+                    $Email
+                )->getTransport();
 
-                    $transport = $this->_transportBuilder->setTemplateIdentifier($template_id)->setTemplateOptions(
-                        [
-                            'area' => \Magento\Framework\App\Area::AREA_FRONTEND,
-                            'store' => $this->_storeManager->getStore()->getId(),
-                        ]
-                    )->setTemplateVars(
-                        [
-                            'customerName' => $customerName,
-                            'customerEmail' => $customerEmail,
-                            'productName' => $productName,
-                            'store' => $this->_storeManager->getStore()
-                        ]
-                    )->setFrom(
-                        $this->Emailsender()
-                    )->addTo('soldiersoociu@gmail.com','thanh')->getTransport();
-
-                    $transport->sendMessage();
-                } catch (\Magento\Framework\Exception\LocalizedException $e) {
-                    $this->_logger->critical($e);
-                }
+                $transport->sendMessage();
+            } catch (\Magento\Framework\Exception\LocalizedException $e) {
+                $this->_logger->critical($e);
             }
+        }
+    }
 }

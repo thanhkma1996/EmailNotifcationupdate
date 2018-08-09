@@ -27,6 +27,10 @@
                 <config_new_subscription_template>emailnotifications_config_config_group_new_subscription_config_new_subscription_template</config_new_subscription_template>
             </config_group_new_subscription>
 
+            <config_group_new_unsubscription>
+                <config_new_unsubscription_template>emailnotifications_config_config_group_new_unsubscription_config_new_unsubscription_template</config_new_unsubscription_template>
+            </config_group_new_unsubscription>
+
             <config_group_new_orderstatus>
                 <config_new_orderstatus_template>emailnotifications_config_config_group_new_orderstatus_config_new_orderstatus_template</config_new_orderstatus_template>
             </config_group_new_orderstatus>
