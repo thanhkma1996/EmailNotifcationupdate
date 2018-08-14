@@ -1,7 +1,82 @@
 {{template config_path="design/email/header_template"}}
-<!--@subject New Coupon Code used@-->
 <h1>A coupon code has been used</h1>
 <p>Time created: {{var created_at}}.</p>
 <p>Coupon Code used: {{var coupon_code}}</p>
 <p>Order ID: {{var orderId}}</p>
+
+<style type="text/css">
+    p{
+        margin: 1em 0;
+    }
+    @media (max-width: 767px){
+        h2{
+            font-size: 48px !important;
+            padding-bottom: 28px !important;
+        }
+        td[class$="email-image"]{
+            padding: 4px 4px 0 !important;
+        }
+        td[class$="padding-mobile"]{
+            padding-left: 15px !important;
+            padding-right: 15px !important;
+        }
+        td[class$="couponcode-image"]{
+            display: none;
+        }
+        td[class$="couponcode-image"] + td{
+            padding: 46px 8px 52px !important;
+        }
+        tr[class$="content-text"] > td{
+            padding-bottom: 48px !important;
+        }
+        tr[class$="content-bottom"] > td{
+            padding-top: 48px !important;
+            padding-bottom: 48px !important;
+        }
+    }
+</style>
+
+<table style="max-width: 1100px; margin: auto; background-color: #fff; color: #707070; font-family: arial,sans-serif; /* font-size: 20px; */ font-size: 16px; line-height: 1.7;">
+    <tbody>
+    <tr>
+        <td style="padding: 18px 20px 0;" class="email-image"><img src="images/thanksgiving.png" style=" display: block; width: 100%; " alt=""></td>
+    </tr>
+    <tr class="content-text">
+        <td class="padding-mobile" style="padding: 0 60px 108px;">
+            <h2 style="/*font-size: 90px;*/ font-size: 88px; color: #EC8B3A; text-align: center; font-weight: 300; line-height: 1; margin: 0; padding: 26px 0 48px;">Happy Thanksgiving!</h2>
+            <p style="margin-bottom: 27px;">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p>
+            <p style="margin-bottom: 27px;"><b><i>"Sed rutrum, libero non pretium tristique, arcu mi sollicitudin ex, quis venenatis orci tellus vel dolor. Donec gravida, dolor ut auctor facilisis."</i></b></p>
+            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>
+        </td>
+    </tr>
+    <tr class="content-couponcode" style="background-color: #E5D6C1;">
+        <td class="padding-mobile" style="padding: 0 60px;">
+            <table style="width: 100%;">
+                <tr>
+                    <td class="couponcode-image" style="width: 364px; padding: 0 8px; position: relative; height: 447px;">
+                        <img src="images/thanksgiving2.png" style="display: block; width: 100%; margin: -30px 0; object-fit: cover; -o-object-fit: cover; -webkit-box-shadow: 0 3px 30px rgba(0, 0, 0, 0.5); -moz-box-shadow: 0 3px 30px rgba(0, 0, 0, 0.5); box-shadow: 0 3px 30px rgba(0, 0, 0, 0.5); width: calc(100% - 16px); height: calc(100% + 60px); position: absolute; top: 0; left: 8px;">
+                    </td>
+                    <td style="padding: 46px 33px 52px 86px; color: #222222;">
+                        <p><strong>From: </strong>Morgan Freeman</p>
+                        <p><strong>To: </strong>Joel Henry</p>
+                        <p style="margin: 0; padding: 5px 0 66px;"><strong>[Amount]/- 700$</strong></p>
+                        <p style="font-size: 20px; line-height: 1.5; text-transform: uppercase; background-color: #FEFEFE; margin: 22px; outline: 22px solid #fff; border: 2px dashed #704A33; padding: 25px; text-align: center;">
+                            <strong style="display: block; font-size: 26px; font-weight: bold; margin-bottom: 5px;">COUPON CODE</strong>
+                            <span style="display: block;">MWB-XXXXX</span>
+                            <span style="display: block;">(ED:14/07/2019)</span>
+                        </p>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr class="content-bottom">
+        <td class="padding-mobile" style="padding: 108px 60px 55px;">
+            <p style="max-width: 596px; margin: auto; text-align: center;">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p>
+        </td>
+    </tr>
+    <tr><td style="background: #EC8B3A; height: 39px"></td></tr>
+    </tbody>
+</table>
 {{template config_path="design/email/footer_template"}}
+

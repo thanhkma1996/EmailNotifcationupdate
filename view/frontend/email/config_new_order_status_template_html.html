@@ -1,13 +1,8 @@
 {{template config_path="design/email/header_template"}}
 <!--@subject New Order Status @-->
-<style type="text/css">
-    {{var template_styles|raw}}
-
-    {{css file="css/email.css"}}
-</style>
-<h1>New order status</h1>
-<p>Order ID: {{var orderId}}</p>
-<p>Previous Status: {{var statebefore}}</p>
-<p>Current Status: {{var stateafter}}</p>
-<p>Updated time: {{var updated_at}}</p>
+<h1 style="color: red">New order status</h1>
+<p style="color:green;">Order ID: {{var orderId}}</p>
+<p style="color: #19ff0b">Previous Status: {{var statebefore}}</p>
+<p style="color:green;">Current Status: {{var stateafter}}</p>
+<p style="color: green">Updated time: {{var updated_at}}</p>
 {{template config_path="design/email/footer_template"}}

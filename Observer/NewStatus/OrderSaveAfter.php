@@ -22,15 +22,8 @@ class OrderSaveAfter extends Email implements ObserverInterface
         $statusAfter = $order->getStatus();
 
 
-        $from = $this->_scopeConfig->getValue(
-            $this->newStatus('rv_order_from'),
-            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-        );
-        $to = $this->_scopeConfig->getValue(
-            $this->newStatus('rv_order_to'),
-            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-        );
-        if ((strpos($from, $statusBefore) !== false) && (strpos($to, $statusAfter) !== false)) {
+
+        if (($statusBefore !== false) && ($statusAfter !== false)) {
             $receiverList = $this->_scopeConfig->getValue(
                 $this->newStatus('rv_order_receive'),
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE
@@ -48,8 +41,8 @@ class OrderSaveAfter extends Email implements ObserverInterface
                     [
                         'orderId' => $order->getIncrementId(),
                         'updated_at' => $order->getUpdatedAt(),
-                        'statebefore' => $from,
-                        'stateafter' => $to
+                        'statebefore' => $statusBefore,
+                        'stateafter' => $statusAfter
                     ]
                 )->setFrom(
                     $this->Emailsender()
@@ -59,6 +52,6 @@ class OrderSaveAfter extends Email implements ObserverInterface
                 $transport->sendMessage();
             }
         }
-        }
-
     }
+
+}

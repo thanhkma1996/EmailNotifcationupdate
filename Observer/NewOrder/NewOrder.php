@@ -49,14 +49,14 @@ class NewOrder extends Email implements ObserverInterface
                 )->setFrom(
                     $this->Emailsender()
                 )->addTo(
-                  $Email
+                    $Email
                 )->getTransport();
                 $transport->sendMessage();
             } catch (\Magento\Framework\Exception\LocalizedException $e) {
                 $this->_logger->critical($e);
             }
         }
-        
+
         /** @var  $receiverList order */
 
         $receiverList = $this->_scopeConfig->getValue(
@@ -75,10 +75,7 @@ class NewOrder extends Email implements ObserverInterface
                 );
 
                 $transport = $this->_transportBuilder->setTemplateIdentifier($template_id)->setTemplateOptions(
-                    [
-                        'area' => \Magento\Framework\App\Area::AREA_FRONTEND,
-                        'store' => $this->_storeManager->getStore()->getId(),
-                    ]
+                    $this->transport()
                 )->setTemplateVars(
                     [
                         'orderId' => $orderModel->load($orderId)->getIncrementId(),
@@ -87,7 +84,7 @@ class NewOrder extends Email implements ObserverInterface
                 )->setFrom(
                     $this->Emailsender()
                 )->addTo(
-                  $Email
+                    $Email
                 )->getTransport();
                 $transport->sendMessage();
             } catch (\Magento\Framework\Exception\LocalizedException $e) {

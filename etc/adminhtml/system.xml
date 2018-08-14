@@ -103,7 +103,7 @@
                 <field id="config_new_orderstatus_receiver" translate="label comment" type="text" sortOrder="60" showInDefault="1" showInWebsite="0" showInStore="1">
                     <label>Send To</label>
                     <frontend_model>Magenest\EmailNotifications\Block\Adminhtml\Form\Field\Status</frontend_model>
-                    <backend_model>Magenest\EmailNotifications\Config\Backend\Mail</backend_model>
+                    <backend_model>Magenest\EmailNotifications\Config\Backend\Status</backend_model>
                 </field>
 
             </group>
