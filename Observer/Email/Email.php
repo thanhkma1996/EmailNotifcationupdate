@@ -20,6 +20,12 @@ abstract class Email implements ObserverInterface
 
     protected $_reviewFactory;
 
+    protected $_customerFactory;
+
+    protected $_orderFactory;
+
+
+
     public function __construct(
         LoggerInterface $loggerInterface,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
